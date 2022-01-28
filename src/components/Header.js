@@ -8,10 +8,10 @@ import {
   Spacer,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import AddTask from "./AddTask";
 
-const Header = ({onAdd}) => {
+const Header = ({ onAdd }) => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -28,11 +28,11 @@ const Header = ({onAdd}) => {
           boxShadow="md"
           onClick={onToggle}
         >
-          <Button color="blue.400">Add</Button>
+          <Button color={!isOpen ? "blue.400" : "red.400"}>{!isOpen ? "Add" : "Close"}</Button>
           <IconButton
             aria-label="Add Task"
-            icon={<AddIcon />}
-            color="blue.400"
+            icon={!isOpen ? <AddIcon /> : <CloseIcon />}
+            color={!isOpen ? "blue.400" : "red.400"}
           />
         </ButtonGroup>
       </Flex>

@@ -8,11 +8,14 @@ import {
   FormLabel,
   Input,
   Spacer,
+  useToast,
+  WrapItem,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import moment from "moment";
 
 const AddTask = ({ isOpen, onAdd }) => {
+  const toast = useToast();
   const [text, setText] = useState("");
   const [date, setDate] = useState("");
   const [reminder, setReminder] = useState(false);
@@ -20,7 +23,23 @@ const AddTask = ({ isOpen, onAdd }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    onAdd({ text, date: moment(date).format('MMM Do [at] h:mma'), reminder });
+    var errors = [];
+    const dateTime = moment(date).format("MMM Do [at] h:mma");
+    if (text === "") errors.push("Enter task name");
+    if (dateTime === "Invalid date") errors.push("Enter valid date");
+    if (errors.length > 0){
+      errors.map((error) => (
+        toast({
+          position: "top",
+          title: error,
+          status: "error",
+          isClosable: true,
+        })
+      ))
+      errors = []
+      return
+    }
+    onAdd({ text, date: dateTime, reminder });
     setText("");
     setDate("");
     setReminder(false);

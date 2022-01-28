@@ -10,6 +10,7 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import moment from "moment";
 
 const AddTask = ({ isOpen, onAdd }) => {
   const [text, setText] = useState("");
@@ -19,7 +20,7 @@ const AddTask = ({ isOpen, onAdd }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    onAdd({ text, date, reminder });
+    onAdd({ text, date: moment(date).format('MMM Do [at] h:mma'), reminder });
     setText("");
     setDate("");
     setReminder(false);

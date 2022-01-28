@@ -9,12 +9,11 @@ import {
   Input,
   Spacer,
   useToast,
-  WrapItem,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import moment from "moment";
 
-const AddTask = ({ isOpen, onAdd }) => {
+const AddTask = ({ isOpen, onAdd, theme }) => {
   const toast = useToast();
   const [text, setText] = useState("");
   const [date, setDate] = useState("");
@@ -27,17 +26,17 @@ const AddTask = ({ isOpen, onAdd }) => {
     const dateTime = moment(date).format("MMM Do [at] h:mma");
     if (text === "") errors.push("Enter task name");
     if (dateTime === "Invalid date") errors.push("Enter valid date");
-    if (errors.length > 0){
-      errors.map((error) => (
+    if (errors.length > 0) {
+      errors.map((error) =>
         toast({
           position: "top",
           title: error,
           status: "error",
           isClosable: true,
         })
-      ))
-      errors = []
-      return
+      );
+      errors = [];
+      return;
     }
     onAdd({ text, date: dateTime, reminder });
     setText("");
@@ -48,10 +47,20 @@ const AddTask = ({ isOpen, onAdd }) => {
   return (
     <>
       <Collapse in={isOpen} animateOpacity>
-        <Box p="20px 40px" mt="4" bg="blue.100" rounded="md" shadow="md">
+        <Box
+          p="20px 40px"
+          mt="4"
+          bg={theme ? "blue.200" : "gray.700"}
+          rounded="md"
+          shadow="md"
+        >
           <form onSubmit={onSubmit}>
             <FormControl>
-              <FormLabel>Task Name</FormLabel>
+              <FormLabel 
+                  fontWeight="bold"
+              color={theme ? "gray.600" : "white"}>
+                Task Name
+              </FormLabel>
               <Input
                 bg="white"
                 type="text"
@@ -61,7 +70,7 @@ const AddTask = ({ isOpen, onAdd }) => {
             </FormControl>
             <br />
             <FormControl>
-              <FormLabel htmlFor="Date">Date</FormLabel>
+              <FormLabel fontWeight="bold" color={theme ? "gray.600" : "white"}>Date</FormLabel>
               <Input
                 bg="white"
                 type="datetime-local"
@@ -75,11 +84,13 @@ const AddTask = ({ isOpen, onAdd }) => {
                 isChecked={reminder}
                 value={reminder}
                 onChange={(e) => setReminder(e.currentTarget.checked)}
+                color={theme ? "gray.700" : "white"}
+                fontWeight="medium"
               >
                 Set Reminder
               </Checkbox>
               <Spacer />
-              <Button type="submit" color="blue.400">
+              <Button type="submit" fontWeight="bold" color={theme ? "blue.600" : "gray.800"}>
                 Add
               </Button>
             </Flex>

@@ -1,12 +1,28 @@
 import Header from "./components/Header";
-import { Center, Box, Text, IconButton, Image } from "@chakra-ui/react";
+import {
+  Center,
+  Box,
+  Text,
+  IconButton,
+  Image,
+  useToast,
+} from "@chakra-ui/react";
 import Tasks from "./components/Tasks";
 import { useState, useEffect } from "react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import noTask from "./assets/noTasks.png";
-import { getAllData, getData, updateData, deleteData, addData } from "./utils/fetchData";
+import beep from "./assets/beep.mp3";
+import {
+  getAllData,
+  getData,
+  updateData,
+  deleteData,
+  addData,
+} from "./utils/fetchData";
+import moment from "moment";
 
 function App() {
+  const toast = useToast();
   const [theme, setTheme] = useState(true);
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
@@ -17,6 +33,30 @@ function App() {
 
     getTasks();
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      tasks.forEach((task) => {
+        if (task.reminder) {
+          if (task.date === moment().format("MMM Do yyyy [at] h:mma")) {
+            var audio = new Audio(beep);
+            audio.loop = true
+            audio.play();
+            toast({
+              position: "top",
+              title: task.text,
+              description: task.date,
+              status: "info",
+              duration: 10000,
+              isClosable: true,
+              onCloseComplete: (() => audio.pause())
+            });
+          }
+        }
+      });
+    }, 60000);
+    return () => clearInterval(interval);
+  });
 
   const changeTheme = () => {
     setTheme(!theme);
@@ -30,7 +70,7 @@ function App() {
 
   const addTask = async (task) => {
     const data = await addData(task);
-    setTasks([...tasks, data]);
+    setTasks([data, ...tasks]);
   };
 
   const toggleTaskReminder = async (id) => {
@@ -45,7 +85,7 @@ function App() {
   };
 
   const deleteTask = async (id) => {
-    await deleteData(id)
+    await deleteData(id);
     setTasks(tasks.filter((task) => task.id !== id));
   };
 

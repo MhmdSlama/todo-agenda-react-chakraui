@@ -4,7 +4,7 @@ const headers =  {
   }
 
 export const getAllData = async () => {
-  const res = await fetch(baseUrl);
+  const res = await fetch(`${baseUrl}?_sort=id&_order=desc`);
 
   return await res.json();
 };

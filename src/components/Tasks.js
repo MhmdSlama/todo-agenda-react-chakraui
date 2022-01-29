@@ -7,6 +7,7 @@ const Tasks = ({ tasks, toggleReminder, onDelete, theme }) => {
       maxH={["350", "350", "370"]}
       overflowY="auto"
       pr="10px"
+      pl="5px"
       borderRadius="lg"
     >
       {tasks.map((task) => (

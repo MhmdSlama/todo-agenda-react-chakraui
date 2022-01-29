@@ -19,7 +19,7 @@ const Header = ({ onAdd, theme }) => {
       <Flex alignItems="center">
         <Text fontSize="30px" fontWeight="bold" 
         color={theme? "blue.500" : "white"}>
-          Task Tracker
+          ToDo Agenda
         </Text>
         <Spacer />
         <ButtonGroup

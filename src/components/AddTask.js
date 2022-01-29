@@ -23,7 +23,7 @@ const AddTask = ({ isOpen, onAdd, theme }) => {
     e.preventDefault();
 
     var errors = [];
-    const dateTime = moment(date).format("MMM Do [at] h:mma");
+    const dateTime = moment(date).format("MMM Do yyyy [at] h:mma");
     if (text === "") errors.push("Enter task name");
     if (dateTime === "Invalid date") errors.push("Enter valid date");
     if (errors.length > 0) {

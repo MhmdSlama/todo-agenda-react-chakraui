@@ -20,4 +20,6 @@ code {
 
 .dark{
   background-color: rgb(1, 1, 37);
+  background-image: linear-gradient(gray, rgb(1, 1, 37));
+  background-repeat: no-repeat;
 }

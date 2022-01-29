@@ -37,7 +37,7 @@ npm i json-server
 ```
 
 
-##Scripts
+## Scripts
 
 ### `npm start`
 
